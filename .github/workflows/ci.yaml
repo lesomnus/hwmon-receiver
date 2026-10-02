@@ -1,0 +1,19 @@
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: hwmonreceiver
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: hwmonreceiver/go.mod
+          cache-dependency-path: hwmonreceiver/go.sum
+      - run: go vet ./...
+      - run: go test -v -race ./...
